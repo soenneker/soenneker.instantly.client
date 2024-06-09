@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using Soenneker.Instantly.Client.Abstract;
 using Soenneker.Tests.FixturedUnit;
 using Xunit;
