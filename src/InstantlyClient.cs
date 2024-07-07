@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Soenneker.Instantly.Client.Abstract;
 using Soenneker.Utils.HttpClientCache.Abstract;
@@ -16,9 +17,9 @@ public class InstantlyClient : IInstantlyClient
         _httpClientCache = httpClientCache;
     }
 
-    public ValueTask<HttpClient> Get()
+    public ValueTask<HttpClient> Get(CancellationToken cancellationToken = default)
     {
-        return _httpClientCache.Get(nameof(InstantlyClient));
+        return _httpClientCache.Get(nameof(InstantlyClient), cancellationToken: cancellationToken);
     }
 
     public void Dispose()
