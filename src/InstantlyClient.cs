@@ -12,6 +12,8 @@ public class InstantlyClient : IInstantlyClient
 {
     private readonly IHttpClientCache _httpClientCache;
 
+    public const string BaseUri = "https://api.instantly.ai/api/v1/";
+
     public InstantlyClient(IHttpClientCache httpClientCache)
     {
         _httpClientCache = httpClientCache;
