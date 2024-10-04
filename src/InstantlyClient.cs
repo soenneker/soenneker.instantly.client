@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Soenneker.Instantly.Client.Abstract;
 using Soenneker.Utils.HttpClientCache.Abstract;
+using Soenneker.Utils.HttpClientCache.Dtos;
 
 namespace Soenneker.Instantly.Client;
 
@@ -12,7 +13,7 @@ public class InstantlyClient : IInstantlyClient
 {
     private readonly IHttpClientCache _httpClientCache;
 
-    public const string BaseUri = "https://api.instantly.ai/api/v1/";
+    private readonly HttpClientOptions _options = new() { BaseAddress = "https://api.instantly.ai/api/v1/" };
 
     public InstantlyClient(IHttpClientCache httpClientCache)
     {
@@ -21,7 +22,7 @@ public class InstantlyClient : IInstantlyClient
 
     public ValueTask<HttpClient> Get(CancellationToken cancellationToken = default)
     {
-        return _httpClientCache.Get(nameof(InstantlyClient), cancellationToken: cancellationToken);
+        return _httpClientCache.Get(nameof(InstantlyClient), _options, cancellationToken: cancellationToken);
     }
 
     public void Dispose()
