@@ -15,8 +15,7 @@ public static class InstantlyClientRegistrar
     /// </summary>
     public static IServiceCollection AddInstantlyClientAsSingleton(this IServiceCollection services)
     {
-        services.TryAddSingleton<IInstantlyClient, InstantlyClient>();
-        services.AddHttpClientCache();
+        services.AddHttpClientCacheAsSingleton().TryAddSingleton<IInstantlyClient, InstantlyClient>();
 
         return services;
     }
@@ -26,8 +25,7 @@ public static class InstantlyClientRegistrar
     /// </summary>
     public static IServiceCollection AddInstantlyClientAsScoped(this IServiceCollection services)
     {
-        services.TryAddScoped<IInstantlyClient, InstantlyClient>();
-        services.AddHttpClientCache();
+        services.AddHttpClientCacheAsSingleton().TryAddScoped<IInstantlyClient, InstantlyClient>();
 
         return services;
     }
