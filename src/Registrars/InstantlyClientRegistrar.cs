@@ -13,18 +13,22 @@ public static class InstantlyClientRegistrar
     /// <summary>
     /// Adds <see cref="IInstantlyClient"/> as a singleton service. <para/>
     /// </summary>
-    public static void AddInstantlyClientAsSingleton(this IServiceCollection services)
+    public static IServiceCollection AddInstantlyClientAsSingleton(this IServiceCollection services)
     {
         services.TryAddSingleton<IInstantlyClient, InstantlyClient>();
         services.AddHttpClientCache();
+
+        return services;
     }
 
     /// <summary>
     /// Adds <see cref="IInstantlyClient"/> as a scoped service. <para/>
     /// </summary>
-    public static void AddInstantlyClientAsScoped(this IServiceCollection services)
+    public static IServiceCollection AddInstantlyClientAsScoped(this IServiceCollection services)
     {
         services.TryAddScoped<IInstantlyClient, InstantlyClient>();
         services.AddHttpClientCache();
+
+        return services;
     }
 }
