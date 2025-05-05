@@ -1,4 +1,4 @@
-# Contributing to Soenneker.Instantly.Client
+﻿# Contributing to Soenneker.Instantly.Client
 
 We're excited that you're interested in contributing!
 
