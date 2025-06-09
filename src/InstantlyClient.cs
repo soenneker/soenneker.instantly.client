@@ -1,4 +1,3 @@
-using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,7 +8,7 @@ using Soenneker.Utils.HttpClientCache.Abstract;
 namespace Soenneker.Instantly.Client;
 
 /// <inheritdoc cref="IInstantlyClient"/>
-public class InstantlyClient : IInstantlyClient
+public sealed class InstantlyClient : IInstantlyClient
 {
     private readonly IHttpClientCache _httpClientCache;
 
@@ -30,13 +29,11 @@ public class InstantlyClient : IInstantlyClient
 
     public void Dispose()
     {
-        GC.SuppressFinalize(this);
         _httpClientCache.RemoveSync(_clientId);
     }
 
     public ValueTask DisposeAsync()
     {
-        GC.SuppressFinalize(this);
         return _httpClientCache.Remove(_clientId);
     }
 }
