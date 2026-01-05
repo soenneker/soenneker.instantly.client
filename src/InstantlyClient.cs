@@ -31,20 +31,15 @@ public sealed class InstantlyClient : IInstantlyClient
 
     public ValueTask<HttpClient> Get(CancellationToken cancellationToken = default)
     {
-        // No closure: method group
-        return _httpClientCache.Get(_clientId, CreateOptions, cancellationToken);
-    }
-
-    private HttpClientOptions CreateOptions()
-    {
-        return new HttpClientOptions
+        // No closure: state passed explicitly + static lambda
+        return _httpClientCache.Get(_clientId, _authHeaderValue, static authHeaderValue => new HttpClientOptions
         {
             BaseAddressUri = new Uri(_prodBaseUrl),
             DefaultRequestHeaders = new Dictionary<string, string>(1)
             {
-                { "Authorization", _authHeaderValue }
+                { "Authorization", authHeaderValue }
             }
-        };
+        }, cancellationToken);
     }
 
     public void Dispose()
