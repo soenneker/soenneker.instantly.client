@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Extensions.Configuration;
 using Soenneker.Dtos.HttpClientOptions;
 using Soenneker.Instantly.Client.Abstract;
@@ -13,36 +14,37 @@ namespace Soenneker.Instantly.Client;
 /// <inheritdoc cref="IInstantlyClient"/>
 public sealed class InstantlyClient : IInstantlyClient
 {
-    private readonly IHttpClientCache _httpClientCache;
-    private readonly IConfiguration _configuration;
-
     private const string _clientId = nameof(InstantlyClient);
-
     private const string _prodBaseUrl = "https://api.instantly.ai/api/v2/";
+
+    private readonly IHttpClientCache _httpClientCache;
+    private readonly string _authHeaderValue;
 
     public InstantlyClient(IHttpClientCache httpClientCache, IConfiguration configuration)
     {
         _httpClientCache = httpClientCache;
-        _configuration = configuration;
+
+        // Fail fast; do not retain IConfiguration.
+        string apiKey = configuration.GetValueStrict<string>("Instantly:ApiKey");
+        _authHeaderValue = "Bearer " + apiKey;
     }
 
     public ValueTask<HttpClient> Get(CancellationToken cancellationToken = default)
     {
-        return _httpClientCache.Get(_clientId, () =>
+        // No closure: method group
+        return _httpClientCache.Get(_clientId, CreateOptions, cancellationToken);
+    }
+
+    private HttpClientOptions CreateOptions()
+    {
+        return new HttpClientOptions
         {
-            var apiKey = _configuration.GetValueStrict<string>("Instantly:ApiKey");
-
-            var options = new HttpClientOptions
+            BaseAddressUri = new Uri(_prodBaseUrl),
+            DefaultRequestHeaders = new Dictionary<string, string>(1)
             {
-                BaseAddress = _prodBaseUrl,
-                DefaultRequestHeaders = new Dictionary<string, string>
-                {
-                    {"Authorization", $"Bearer {apiKey}"}
-                }
-            };
-
-            return options;
-        }, cancellationToken);
+                { "Authorization", _authHeaderValue }
+            }
+        };
     }
 
     public void Dispose()
