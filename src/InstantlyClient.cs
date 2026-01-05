@@ -34,7 +34,7 @@ public sealed class InstantlyClient : IInstantlyClient
         // No closure: state passed explicitly + static lambda
         return _httpClientCache.Get(_clientId, _authHeaderValue, static authHeaderValue => new HttpClientOptions
         {
-            BaseAddressUri = new Uri(_prodBaseUrl),
+            BaseAddress = new Uri(_prodBaseUrl),
             DefaultRequestHeaders = new Dictionary<string, string>(1)
             {
                 { "Authorization", authHeaderValue }
