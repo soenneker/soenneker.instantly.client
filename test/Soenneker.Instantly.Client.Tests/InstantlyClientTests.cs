@@ -1,20 +1,19 @@
 using Soenneker.Instantly.Client.Abstract;
-using Soenneker.Tests.FixturedUnit;
-using Xunit;
+using Soenneker.Tests.HostedUnit;
 
 namespace Soenneker.Instantly.Client.Tests;
 
-[Collection("Collection")]
-public class InstantlyClientTests : FixturedUnitTest
+[ClassDataSource<Host>(Shared = SharedType.PerTestSession)]
+public class InstantlyClientTests : HostedUnitTest
 {
     private readonly IInstantlyClient _util;
 
-    public InstantlyClientTests(Fixture fixture, ITestOutputHelper output) : base(fixture, output)
+    public InstantlyClientTests(Host host) : base(host)
     {
         _util = Resolve<IInstantlyClient>(true);
     }
 
-    [Fact]
+    [Test]
     public void Default()
     {
 
