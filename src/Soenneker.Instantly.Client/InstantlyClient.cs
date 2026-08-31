@@ -11,14 +11,13 @@ using Soenneker.Extensions.Configuration;
 
 namespace Soenneker.Instantly.Client;
 
-/// <inheritdoc cref="IInstantlyClient"/>
 public sealed class InstantlyClient : IInstantlyClient
 {
-    private const string _clientId = nameof(InstantlyClient);
     private const string _prodBaseUrl = "https://api.instantly.ai/api/v2/";
 
     private readonly IHttpClientCache _httpClientCache;
     private readonly string _authHeaderValue;
+    private readonly string _clientId = $"{nameof(InstantlyClient)}:{Guid.NewGuid():N}";
 
     public InstantlyClient(IHttpClientCache httpClientCache, IConfiguration configuration)
     {
@@ -42,18 +41,11 @@ public sealed class InstantlyClient : IInstantlyClient
         }, cancellationToken);
     }
 
-    /// <summary>
-    /// Releases resources used by the current instance.
-    /// </summary>
     public void Dispose()
     {
         _httpClientCache.RemoveSync(_clientId);
     }
 
-    /// <summary>
-    /// Asynchronously releases resources used by the current instance.
-    /// </summary>
-    /// <returns>A task that represents the asynchronous operation.</returns>
     public ValueTask DisposeAsync()
     {
         return _httpClientCache.Remove(_clientId);

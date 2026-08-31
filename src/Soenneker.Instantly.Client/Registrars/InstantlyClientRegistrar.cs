@@ -6,7 +6,7 @@ using Soenneker.Utils.HttpClientCache.Registrar;
 namespace Soenneker.Instantly.Client.Registrars;
 
 /// <summary>
-/// A .NET HTTP client for Instantly's API
+/// Registers the cached Instantly HTTP client provider.
 /// </summary>
 public static class InstantlyClientRegistrar
 {

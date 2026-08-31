@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 namespace Soenneker.Instantly.Client.Abstract;
 
 /// <summary>
-/// A .NET HTTP client for Instantly's API
+/// Provides a cached HTTP client authenticated for Instantly's v2 API.
 /// </summary>
 public interface IInstantlyClient : IAsyncDisposable, IDisposable
 {
     /// <summary>
-    /// Gets the value.
+    /// Gets the authenticated Instantly HTTP client.
     /// </summary>
     /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>A task containing the result of the operation.</returns>
+    /// <returns>A task containing the configured client.</returns>
     ValueTask<HttpClient> Get(CancellationToken cancellationToken = default);
 }
