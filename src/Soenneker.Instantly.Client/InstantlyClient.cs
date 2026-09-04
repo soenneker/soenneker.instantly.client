@@ -11,6 +11,7 @@ using Soenneker.Extensions.Configuration;
 
 namespace Soenneker.Instantly.Client;
 
+/// <inheritdoc cref="IInstantlyClient" />
 public sealed class InstantlyClient : IInstantlyClient
 {
     private const string _prodBaseUrl = "https://api.instantly.ai/api/v2/";
