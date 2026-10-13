@@ -25,7 +25,7 @@ public sealed class InstantlyClient : IInstantlyClient
         _httpClientCache = httpClientCache;
 
         // Fail fast; do not retain IConfiguration.
-        var apiKey = configuration.GetValueStrict<string>("Instantly:ApiKey");
+        var apiKey = configuration.GetStringStrict("Instantly:ApiKey");
         _authHeaderValue = "Bearer " + apiKey;
     }
 
